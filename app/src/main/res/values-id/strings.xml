@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Kirim Lokasi</string>
+    <string name="hello">Halo</string>
     <string name="subtitle_press_button">Tek tombol besar atau kontak\nuntuk membagikan lokasi Anda</string>
     <string name="btn_send_location">KIRIM\nLOKASI</string>
     <string name="favorite_contacts">Kontak Favorit</string>

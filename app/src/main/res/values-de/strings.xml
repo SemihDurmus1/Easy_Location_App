@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Standort Senden</string>
+    <string name="hello">Hallo</string>
     <string name="subtitle_press_button">Drücken Sie den großen Button oder\nKontakten, um Ihren Standort zu teilen</string>
     <string name="btn_send_location">STANDORT\nSENDEN</string>
     <string name="favorite_contacts">Favoriten</string>

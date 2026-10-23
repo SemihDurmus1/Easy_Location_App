@@ -279,7 +279,7 @@ fun MainScreen() {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "!",
+                    text = stringResource(R.string.hello),
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Black,
                     color = TextWhite

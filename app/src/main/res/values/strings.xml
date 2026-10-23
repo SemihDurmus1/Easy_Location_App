@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Konum Gönder</string>
+    <string name="hello">Merhaba</string>
     <string name="subtitle_press_button">Konumunuzu paylaşmak için\nbüyük butona veya kişiye basın</string>
-    <string name="btn_send_location">KONUMUMu\nGÖNDER</string>
+    <string name="btn_send_location">KONUMUMU\nGÖNDER</string>
     <string name="favorite_contacts">Favori Kişiler</string>
     <string name="see_all">Tümünü Gör</string>
     <string name="add_contact">Kişi Ekle</string>

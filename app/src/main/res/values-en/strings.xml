@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Send Location</string>
+    <string name="hello">Hello</string>
     <string name="subtitle_press_button">Press the big button or contact\nto share your location</string>
     <string name="btn_send_location">SEND\nLOCATION</string>
     <string name="favorite_contacts">Favorite Contacts</string>

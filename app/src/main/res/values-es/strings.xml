@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Enviar Ubicación</string>
+    <string name="hello">Hola</string>
     <string name="subtitle_press_button">Pulsa el botón grande o contacto\npara compartir tu ubicación</string>
     <string name="btn_send_location">ENVIAR\nUBICACIÓN</string>
     <string name="favorite_contacts">Contactos Favoritos</string>

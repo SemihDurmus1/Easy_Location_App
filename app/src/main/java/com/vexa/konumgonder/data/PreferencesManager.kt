@@ -13,6 +13,20 @@ class PreferencesManager(private val context: Context) {
         private const val KEY_CONTACTS = "key_favorite_contacts"
         private const val KEY_SELECTED_CONTACT_ID = "key_selected_contact_id"
         private const val KEY_MESSAGE_TEMPLATE = "key_message_template"
+
+        private val KNOWN_DEFAULTS = listOf(
+            "Merhaba, anlık konumum:",
+            "Hello, my live location:",
+            "Hola, mi ubicación actual:",
+            "Olá, minha localização atual:",
+            "Hallo, mein aktueller Standort:",
+            "Bonjour, ma position actuelle :",
+            "Ciao, la mia posizione attuale:",
+            "Привет, мое текущее местоположение:",
+            "مرحباً، موقعي الحالي:",
+            "नमस्ते, मेरी वर्तमान लोकेशन:",
+            "Halo, lokasi saya saat ini:"
+        )
     }
 
     fun getFavoriteContacts(): List<FavoriteContact> {
@@ -83,12 +97,16 @@ class PreferencesManager(private val context: Context) {
     }
 
     fun getMessageTemplate(): String {
-        val defaultTemplate = try {
+        val currentDefault = try {
             context.getString(R.string.default_message_template)
         } catch (_: Exception) {
             "Merhaba, anlık konumum:"
         }
-        return prefs.getString(KEY_MESSAGE_TEMPLATE, defaultTemplate) ?: defaultTemplate
+        val saved = prefs.getString(KEY_MESSAGE_TEMPLATE, null)
+        if (saved.isNullOrBlank() || KNOWN_DEFAULTS.contains(saved)) {
+            return currentDefault
+        }
+        return saved
     }
 
     fun setMessageTemplate(template: String) {
