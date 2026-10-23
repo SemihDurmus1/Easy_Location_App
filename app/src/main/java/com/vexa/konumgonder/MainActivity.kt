@@ -63,8 +63,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import com.google.android.gms.ads.MobileAds
 import com.vexa.konumgonder.data.PreferencesManager
 import com.vexa.konumgonder.ui.components.AboutDialog
+import com.vexa.konumgonder.ui.components.BannerAdView
 import com.vexa.konumgonder.ui.components.FavoriteContactsSheet
 import com.vexa.konumgonder.ui.components.SettingsDialog
 import com.vexa.konumgonder.ui.theme.AppBackground
@@ -86,6 +88,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        MobileAds.initialize(this) {}
         setContent {
             KonumGonderTheme {
                 MainScreen()
@@ -225,7 +228,10 @@ fun MainScreen() {
 
     Scaffold(
         containerColor = AppBackground,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            BannerAdView()
+        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -412,7 +418,7 @@ fun MainScreen() {
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        // ITEM 0: ADD CONTACT BUTTON (DIRECTLY OPENS CONTACT PICKER)
+                        // ITEM 0: ADD CONTACT BUTTON
                         item {
                             Box(
                                 modifier = Modifier
