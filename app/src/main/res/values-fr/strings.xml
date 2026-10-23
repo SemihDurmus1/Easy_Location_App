@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KonumGönder</string>
+    <string name="app_name">Envoyer Position</string>
     <string name="subtitle_press_button">Appuyez sur le grand bouton ou contact\npour partager votre position</string>
     <string name="btn_send_location">ENVOYER\nPOSITION</string>
     <string name="favorite_contacts">Contacts Favoris</string>
@@ -8,7 +8,7 @@
     <string name="settings">Paramètres</string>
     <string name="about_app">À propos</string>
     <string name="app_version">Version 1.0.0</string>
-    <string name="app_description">Application de partage de position WhatsApp simplifiée et accessible pour les personnes âgées.</string>
+    <string name="app_description">Application de partage de position WhatsApp simplifiée et accessible.</string>
     <string name="privacy_note">Votre position est envoyée uniquement sur votre demande et au contact sélectionné.</string>
     <string name="dialog_add_contact_title">Ajouter un Favori</string>
     <string name="dialog_add_contact_desc">Sélectionnez le contact de votre répertoire.</string>
@@ -19,6 +19,7 @@
     <string name="btn_reset_default">Rétablir par défaut</string>
     <string name="msg_template_label">Modèle de Message</string>
     <string name="msg_template_desc">Modifiez le texte par défaut du message de position :</string>
+    <string name="default_message_template">Bonjour, ma position actuelle :</string>
     <string name="toast_location_failed">Impossible d\'obtenir la position. Vérifiez le GPS.</string>
     <string name="toast_permission_required">L\'autorisation de localisation est requise.</string>
     <string name="toast_settings_saved">Paramètres enregistrés.</string>

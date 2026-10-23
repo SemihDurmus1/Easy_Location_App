@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KonumGönder</string>
+    <string name="app_name">लोकेशन भेजें</string>
     <string name="subtitle_press_button">अपना स्थान साझा करने के लिए\nबड़े बटन या संपर्क पर टैप करें</string>
     <string name="btn_send_location">लोकेशन\nभेजें</string>
     <string name="favorite_contacts">पसंदीदा संपर्क</string>
@@ -8,7 +8,7 @@
     <string name="settings">सेटिंग्स</string>
     <string name="about_app">ऐप के बारे में</string>
     <string name="app_version">संस्करण 1.0.0</string>
-    <string name="app_description">बुजुर्गों के लिए सरल और सुलभ व्हाट्सएप लोकेशन शेयरिंग ऐप।</string>
+    <string name="app_description">सरल और सुलभ व्हाट्सएप लोकेशन शेयरिंग ऐप।</string>
     <string name="privacy_note">आपका स्थान केवल आपके अनुरोध पर और आपके चुने हुए संपर्क को भेजा जाता है।</string>
     <string name="dialog_add_contact_title">पसंदीदा संपर्क जोड़ें</string>
     <string name="dialog_add_contact_desc">अपने फोन संपर्कों से व्यक्ति का चयन करें।</string>
@@ -19,6 +19,7 @@
     <string name="btn_reset_default">डिफ़ॉल्ट रीसेट करें</string>
     <string name="msg_template_label">संदेश टेम्पलेट</string>
     <string name="msg_template_desc">लोकेशन संदेश का डिफ़ॉल्ट पाठ संपादित करें:</string>
+    <string name="default_message_template">नमस्ते, मेरी वर्तमान लोकेशन:</string>
     <string name="toast_location_failed">लोकेशन नहीं मिल सकी। कृपया GPS जांचें।</string>
     <string name="toast_permission_required">लोकेशन अनुमति आवश्यक है।</string>
     <string name="toast_settings_saved">सेटिंग्स सहेजी गईं।</string>

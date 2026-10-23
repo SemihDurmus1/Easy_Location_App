@@ -65,7 +65,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import com.vexa.konumgonder.data.PreferencesManager
 import com.vexa.konumgonder.ui.components.AboutDialog
-import com.vexa.konumgonder.ui.components.AddContactDialog
 import com.vexa.konumgonder.ui.components.FavoriteContactsSheet
 import com.vexa.konumgonder.ui.components.SettingsDialog
 import com.vexa.konumgonder.ui.theme.AppBackground
@@ -108,7 +107,6 @@ fun MainScreen() {
     var isLoadingLocation by remember { mutableStateOf(false) }
     var pendingPhoneToSend by remember { mutableStateOf<String?>(null) }
 
-    var showAddContactDialog by remember { mutableStateOf(false) }
     var showContactsSheet by remember { mutableStateOf(false) }
     var showSettingsDialog by remember { mutableStateOf(false) }
     var showAboutDialog by remember { mutableStateOf(false) }
@@ -146,7 +144,6 @@ fun MainScreen() {
                                 val displayName = if (name.isNotBlank()) name else phone
                                 prefsManager.addContact(displayName, phone)
                                 refreshContacts()
-                                showAddContactDialog = false
                                 Toast.makeText(context, String.format(toastContactAddedTemplate, displayName), Toast.LENGTH_SHORT).show()
                             }
                         }
@@ -415,7 +412,7 @@ fun MainScreen() {
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        // ITEM 0: ADD CONTACT BUTTON
+                        // ITEM 0: ADD CONTACT BUTTON (DIRECTLY OPENS CONTACT PICKER)
                         item {
                             Box(
                                 modifier = Modifier
@@ -424,7 +421,7 @@ fun MainScreen() {
                                     .clip(RoundedCornerShape(16.dp))
                                     .background(AppBackground)
                                     .border(1.dp, CardBorder, RoundedCornerShape(16.dp))
-                                    .clickable { showAddContactDialog = true }
+                                    .clickable { launchContactPicker() }
                                     .padding(12.dp),
                                 contentAlignment = Alignment.Center
                             ) {
@@ -512,13 +509,6 @@ fun MainScreen() {
     // DIALOGS & BOTTOM SHEETS
     val toastSettingsSaved = stringResource(R.string.toast_settings_saved)
 
-    if (showAddContactDialog) {
-        AddContactDialog(
-            onDismiss = { showAddContactDialog = false },
-            onPickFromContactsClick = { launchContactPicker() }
-        )
-    }
-
     if (showContactsSheet) {
         FavoriteContactsSheet(
             contacts = favoriteContacts,
@@ -532,7 +522,8 @@ fun MainScreen() {
                 refreshContacts()
             },
             onAddNewContactClick = {
-                showAddContactDialog = true
+                showContactsSheet = false
+                launchContactPicker()
             }
         )
     }

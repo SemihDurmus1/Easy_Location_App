@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KonumGönder</string>
+    <string name="app_name">Enviar Localização</string>
     <string name="subtitle_press_button">Pressione o botão grande ou contato\npara compartilhar sua localização</string>
     <string name="btn_send_location">ENVIAR\nLOCALIZAÇÃO</string>
     <string name="favorite_contacts">Contatos Favoritos</string>
@@ -19,6 +19,7 @@
     <string name="btn_reset_default">Restaurar Padrão</string>
     <string name="msg_template_label">Modelo de Mensagem</string>
     <string name="msg_template_desc">Edite o texto padrão da mensagem de localização:</string>
+    <string name="default_message_template">Olá, minha localização atual:</string>
     <string name="toast_location_failed">Não foi possível obter a localização. Verifique o GPS.</string>
     <string name="toast_permission_required">Permissão de localização é necessária.</string>
     <string name="toast_settings_saved">Configurações salvas.</string>

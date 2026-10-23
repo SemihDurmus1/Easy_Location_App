@@ -2,17 +2,17 @@ package com.vexa.konumgonder.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.vexa.konumgonder.R
 import org.json.JSONArray
 import org.json.JSONObject
 
-class PreferencesManager(context: Context) {
+class PreferencesManager(private val context: Context) {
     private val prefs: SharedPreferences = context.getSharedPreferences("konum_gonder_prefs", Context.MODE_PRIVATE)
 
     companion object {
         private const val KEY_CONTACTS = "key_favorite_contacts"
         private const val KEY_SELECTED_CONTACT_ID = "key_selected_contact_id"
         private const val KEY_MESSAGE_TEMPLATE = "key_message_template"
-        const val DEFAULT_MESSAGE_TEMPLATE = "Merhaba, anlık konumum:"
     }
 
     fun getFavoriteContacts(): List<FavoriteContact> {
@@ -83,7 +83,12 @@ class PreferencesManager(context: Context) {
     }
 
     fun getMessageTemplate(): String {
-        return prefs.getString(KEY_MESSAGE_TEMPLATE, DEFAULT_MESSAGE_TEMPLATE) ?: DEFAULT_MESSAGE_TEMPLATE
+        val defaultTemplate = try {
+            context.getString(R.string.default_message_template)
+        } catch (_: Exception) {
+            "Merhaba, anlık konumum:"
+        }
+        return prefs.getString(KEY_MESSAGE_TEMPLATE, defaultTemplate) ?: defaultTemplate
     }
 
     fun setMessageTemplate(template: String) {

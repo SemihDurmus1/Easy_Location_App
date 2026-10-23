@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KonumGönder</string>
+    <string name="app_name">Kirim Lokasi</string>
     <string name="subtitle_press_button">Tek tombol besar atau kontak\nuntuk membagikan lokasi Anda</string>
     <string name="btn_send_location">KIRIM\nLOKASI</string>
     <string name="favorite_contacts">Kontak Favorit</string>
@@ -8,7 +8,7 @@
     <string name="settings">Pengaturan</string>
     <string name="about_app">Tentang Aplikasi</string>
     <string name="app_version">Versi 1.0.0</string>
-    <string name="app_description">Aplikasi berbagi lokasi WhatsApp yang disederhanakan dan mudah diakses untuk pengguna lansia.</string>
+    <string name="app_description">Aplikasi berbagi lokasi WhatsApp yang disederhanakan.</string>
     <string name="privacy_note">Lokasi Anda dikirim hanya atas permintaan Anda dan ke kontak yang dipilih.</string>
     <string name="dialog_add_contact_title">Tambah Kontak Favorit</string>
     <string name="dialog_add_contact_desc">Pilih orang yang ingin Anda kirimi lokasi dari kontak telepon Anda.</string>
@@ -19,6 +19,7 @@
     <string name="btn_reset_default">Atur Ulang</string>
     <string name="msg_template_label">Templat Pesan</string>
     <string name="msg_template_desc">Edit teks pesan default untuk lokasi Anda:</string>
+    <string name="default_message_template">Halo, lokasi saya saat ini:</string>
     <string name="toast_location_failed">Lokasi tidak dapat ditemukan. Pastikan GPS aktif.</string>
     <string name="toast_permission_required">Izin lokasi diperlukan.</string>
     <string name="toast_settings_saved">Pengaturan disimpan.</string>

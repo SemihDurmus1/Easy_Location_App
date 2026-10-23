@@ -23,7 +23,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vexa.konumgonder.R
-import com.vexa.konumgonder.data.PreferencesManager
 import com.vexa.konumgonder.ui.theme.CardBackground
 import com.vexa.konumgonder.ui.theme.GreenPrimary
 import com.vexa.konumgonder.ui.theme.TextMuted
@@ -36,6 +35,7 @@ fun SettingsDialog(
     onSaveTemplate: (String) -> Unit
 ) {
     var templateText by remember { mutableStateOf(initialTemplate) }
+    val defaultTemplate = stringResource(R.string.default_message_template)
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -73,7 +73,7 @@ fun SettingsDialog(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 TextButton(
-                    onClick = { templateText = PreferencesManager.DEFAULT_MESSAGE_TEMPLATE },
+                    onClick = { templateText = defaultTemplate },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(stringResource(R.string.btn_reset_default), color = GreenPrimary)

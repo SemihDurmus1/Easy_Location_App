@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KonumGönder</string>
+    <string name="app_name">إرسال الموقع</string>
     <string name="subtitle_press_button">اضغط على الزر الكبير أو جهة الاتصال\nلمشاركة موقعك</string>
     <string name="btn_send_location">إرسال\nالموقع</string>
     <string name="favorite_contacts">المفضلة</string>
@@ -8,7 +8,7 @@
     <string name="settings">الإعدادات</string>
     <string name="about_app">حول التطبيق</string>
     <string name="app_version">الإصدار 1.0.0</string>
-    <string name="app_description">تطبيق مشاركة موقع WhatsApp مبسط وسهل الاستخدام لكبار السن.</string>
+    <string name="app_description">تطبيق مشاركة موقع WhatsApp مبسط وسهل الاستخدام.</string>
     <string name="privacy_note">يتم إرسال موقعك بناءً على طلبك فقط وإلى جهة الاتصال المحددة.</string>
     <string name="dialog_add_contact_title">إضافة جهة مفضلة</string>
     <string name="dialog_add_contact_desc">اختر الشخص الذي تريد إرسال موقعك إليه من جهات الاتصال.</string>
@@ -19,6 +19,7 @@
     <string name="btn_reset_default">إعادة ضبط</string>
     <string name="msg_template_label">قالب الرسالة</string>
     <string name="msg_template_desc">تعديل نص الرسالة الافتراضي لمشاركة الموقع:</string>
+    <string name="default_message_template">مرحباً، موقعي الحالي:</string>
     <string name="toast_location_failed">تعذر الحصول على الموقع. تأكد من تفعيل نظام تحديد الموقع (GPS).</string>
     <string name="toast_permission_required">إذن الموقع مطلوب.</string>
     <string name="toast_settings_saved">تم حفظ الإعدادات.</string>

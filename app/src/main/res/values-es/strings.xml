@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KonumGönder</string>
+    <string name="app_name">Enviar Ubicación</string>
     <string name="subtitle_press_button">Pulsa el botón grande o contacto\npara compartir tu ubicación</string>
     <string name="btn_send_location">ENVIAR\nUBICACIÓN</string>
     <string name="favorite_contacts">Contactos Favoritos</string>
@@ -8,7 +8,7 @@
     <string name="settings">Ajustes</string>
     <string name="about_app">Acerca de</string>
     <string name="app_version">Versión 1.0.0</string>
-    <string name="app_description">Aplicación simplificada y accesible para compartir ubicación por WhatsApp para usuarios mayores.</string>
+    <string name="app_description">Aplicación simplificada y accesible para compartir ubicación por WhatsApp.</string>
     <string name="privacy_note">Tu ubicación se envía solo bajo tu petición y al contacto seleccionado.</string>
     <string name="dialog_add_contact_title">Añadir Contacto Favorito</string>
     <string name="dialog_add_contact_desc">Selecciona de tus contactos a quién deseas enviar tu ubicación.</string>
@@ -19,6 +19,7 @@
     <string name="btn_reset_default">Restaurar Predeterminados</string>
     <string name="msg_template_label">Plantilla de Mensaje</string>
     <string name="msg_template_desc">Edita el texto del mensaje predeterminado para tu ubicación:</string>
+    <string name="default_message_template">Hola, mi ubicación actual:</string>
     <string name="toast_location_failed">No se pudo obtener la ubicación. Asegúrate de que el GPS esté activo.</string>
     <string name="toast_permission_required">Se requiere permiso de ubicación.</string>
     <string name="toast_settings_saved">Ajustes guardados.</string>
