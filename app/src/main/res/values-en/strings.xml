@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Send Location</string>
+    <string name="subtitle_press_button">Press the big button or contact\nto share your location</string>
+    <string name="btn_send_location">SEND\nLOCATION</string>
+    <string name="favorite_contacts">Favorite Contacts</string>
+    <string name="see_all">See All</string>
+    <string name="add_contact">Add Contact</string>
+    <string name="settings">Settings</string>
+    <string name="about_app">About App</string>
+    <string name="app_version">Version 1.0.0</string>
+    <string name="app_description">Simplified and accessible WhatsApp location sharing app designed for elderly users.</string>
+    <string name="privacy_note">Your location is sent only upon your request and to your selected contact.</string>
+    <string name="dialog_add_contact_title">Add Favorite Contact</string>
+    <string name="dialog_add_contact_desc">Select the person you want to send your location to from your phone contacts.</string>
+    <string name="btn_pick_from_contacts">Pick from Contacts</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_close">Close</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_reset_default">Reset to Default</string>
+    <string name="msg_template_label">Message Template</string>
+    <string name="msg_template_desc">Edit the default message text to be sent with your location:</string>
+    <string name="default_message_template">Hello, my live location:</string>
+    <string name="toast_location_failed">Could not get location. Please ensure GPS and location services are enabled.</string>
+    <string name="toast_permission_required">Location permission is required to share your location.</string>
+    <string name="toast_settings_saved">Settings saved.</string>
+    <string name="toast_contact_added">%s added.</string>
+    <string name="toast_whatsapp_failed">Could not open WhatsApp.</string>
+    <string name="toast_share_failed">No sharing option found.</string>
+    <string name="empty_favorites">No favorite contacts added yet.</string>
+    <string name="settings_message_label">Location Message:</string>
+</resources>

@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">KonumGönder</string>
+    <string name="subtitle_press_button">Drücken Sie den großen Button oder\nKontakten, um Ihren Standort zu teilen</string>
+    <string name="btn_send_location">STANDORT\nSENDEN</string>
+    <string name="favorite_contacts">Favoriten</string>
+    <string name="see_all">Alle anzeigen</string>
+    <string name="add_contact">Kontakt hinzufügen</string>
+    <string name="settings">Einstellungen</string>
+    <string name="about_app">Über die App</string>
+    <string name="app_version">Version 1.0.0</string>
+    <string name="app_description">Vereinfachte und barrierefreie WhatsApp-Standort-App für ältere Nutzer.</string>
+    <string name="privacy_note">Ihr Standort wird nur auf Ihren Wunsch und an Ihren gewählten Kontakt gesendet.</string>
+    <string name="dialog_add_contact_title">Favoriten hinzufügen</string>
+    <string name="dialog_add_contact_desc">Wählen Sie den gewünschten Kontakt aus Ihrem Telefonbuch aus.</string>
+    <string name="btn_pick_from_contacts">Aus Kontakte wählen</string>
+    <string name="btn_cancel">Abbrechen</string>
+    <string name="btn_close">Schließen</string>
+    <string name="btn_save">Speichern</string>
+    <string name="btn_reset_default">Auf Standard zurücksetzen</string>
+    <string name="msg_template_label">Nachrichtenvorlage</string>
+    <string name="msg_template_desc">Bearbeiten Sie den Standardtext für Ihren Standort:</string>
+    <string name="toast_location_failed">Standort konnte nicht ermittelt werden. Bitte GPS aktivieren.</string>
+    <string name="toast_permission_required">Standortberechtigung ist erforderlich.</string>
+    <string name="toast_settings_saved">Einstellungen gespeichert.</string>
+    <string name="toast_contact_added">%s hinzugefügt.</string>
+    <string name="toast_whatsapp_failed">WhatsApp konnte nicht geöffnet werden.</string>
+    <string name="toast_share_failed">Keine Freigabeoption gefunden.</string>
+    <string name="empty_favorites">Noch keine Favoriten hinzugefügt.</string>
+    <string name="settings_message_label">Standortnachricht:</string>
+</resources>

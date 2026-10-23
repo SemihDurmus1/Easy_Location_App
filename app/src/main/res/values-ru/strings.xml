@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">KonumGönder</string>
+    <string name="subtitle_press_button">Нажмите большую кнопку или контакт,\nчтобы поделиться геолокацией</string>
+    <string name="btn_send_location">ОТПРАВИТЬ\nМЕСТО</string>
+    <string name="favorite_contacts">Избранное</string>
+    <string name="see_all">Все</string>
+    <string name="add_contact">Добавить</string>
+    <string name="settings">Настройки</string>
+    <string name="about_app">О приложении</string>
+    <string name="app_version">Версия 1.0.0</string>
+    <string name="app_description">Упрощенное и доступное приложение WhatsApp для отправки геопозиции.</string>
+    <string name="privacy_note">Ваше местоположение отправляется только по вашему запросу выбранному контакту.</string>
+    <string name="dialog_add_contact_title">Добавить в избранное</string>
+    <string name="dialog_add_contact_desc">Выберите нужный контакт из телефонной книги.</string>
+    <string name="btn_pick_from_contacts">Выбрать из контактов</string>
+    <string name="btn_cancel">Отмена</string>
+    <string name="btn_close">Закрыть</string>
+    <string name="btn_save">Сохранить</string>
+    <string name="btn_reset_default">Сбросить</string>
+    <string name="msg_template_label">Шаблон сообщения</string>
+    <string name="msg_template_desc">Измените текст сообщения по умолчанию:</string>
+    <string name="toast_location_failed">Не удалось получить геолокацию. Проверьте GPS.</string>
+    <string name="toast_permission_required">Требуется разрешение на геопозицию.</string>
+    <string name="toast_settings_saved">Настройки сохранены.</string>
+    <string name="toast_contact_added">%s добавлен.</string>
+    <string name="toast_whatsapp_failed">Не удалось открыть WhatsApp.</string>
+    <string name="toast_share_failed">Варианты отправки не найдены.</string>
+    <string name="empty_favorites">Нет избранных контактов.</string>
+    <string name="settings_message_label">Сообщение с местом:</string>
+</resources>

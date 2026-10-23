@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">KonumGönder</string>
+    <string name="subtitle_press_button">Tek tombol besar atau kontak\nuntuk membagikan lokasi Anda</string>
+    <string name="btn_send_location">KIRIM\nLOKASI</string>
+    <string name="favorite_contacts">Kontak Favorit</string>
+    <string name="see_all">Lihat Semua</string>
+    <string name="add_contact">Tambah</string>
+    <string name="settings">Pengaturan</string>
+    <string name="about_app">Tentang Aplikasi</string>
+    <string name="app_version">Versi 1.0.0</string>
+    <string name="app_description">Aplikasi berbagi lokasi WhatsApp yang disederhanakan dan mudah diakses untuk pengguna lansia.</string>
+    <string name="privacy_note">Lokasi Anda dikirim hanya atas permintaan Anda dan ke kontak yang dipilih.</string>
+    <string name="dialog_add_contact_title">Tambah Kontak Favorit</string>
+    <string name="dialog_add_contact_desc">Pilih orang yang ingin Anda kirimi lokasi dari kontak telepon Anda.</string>
+    <string name="btn_pick_from_contacts">Pilih dari Kontak</string>
+    <string name="btn_cancel">Batal</string>
+    <string name="btn_close">Tutup</string>
+    <string name="btn_save">Simpan</string>
+    <string name="btn_reset_default">Atur Ulang</string>
+    <string name="msg_template_label">Templat Pesan</string>
+    <string name="msg_template_desc">Edit teks pesan default untuk lokasi Anda:</string>
+    <string name="toast_location_failed">Lokasi tidak dapat ditemukan. Pastikan GPS aktif.</string>
+    <string name="toast_permission_required">Izin lokasi diperlukan.</string>
+    <string name="toast_settings_saved">Pengaturan disimpan.</string>
+    <string name="toast_contact_added">%s ditambahkan.</string>
+    <string name="toast_whatsapp_failed">WhatsApp tidak dapat dibuka.</string>
+    <string name="toast_share_failed">Opsi berbagi tidak ditemukan.</string>
+    <string name="empty_favorites">Belum ada kontak favorit.</string>
+    <string name="settings_message_label">Pesan Lokasi:</string>
+</resources>

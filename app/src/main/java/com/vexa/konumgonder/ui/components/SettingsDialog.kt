@@ -18,9 +18,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.vexa.konumgonder.R
 import com.vexa.konumgonder.data.PreferencesManager
 import com.vexa.konumgonder.ui.theme.CardBackground
 import com.vexa.konumgonder.ui.theme.GreenPrimary
@@ -40,8 +42,8 @@ fun SettingsDialog(
         containerColor = CardBackground,
         title = {
             Text(
-                text = "Ayarlar",
-                fontSize = 18.sp,
+                text = stringResource(R.string.settings),
+                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = TextWhite
             )
@@ -49,15 +51,15 @@ fun SettingsDialog(
         text = {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = "Konum gönderilirken yazılacak varsayılan mesaj metnini düzenleyin:",
-                    fontSize = 13.sp,
+                    text = stringResource(R.string.msg_template_desc),
+                    fontSize = 14.sp,
                     color = TextMuted
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 OutlinedTextField(
                     value = templateText,
                     onValueChange = { templateText = it },
-                    label = { Text("Mesaj Şablonu", color = TextMuted) },
+                    label = { Text(stringResource(R.string.msg_template_label), color = TextMuted) },
                     singleLine = false,
                     maxLines = 3,
                     colors = OutlinedTextFieldDefaults.colors(
@@ -69,12 +71,12 @@ fun SettingsDialog(
                     ),
                     modifier = Modifier.fillMaxWidth()
                 )
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 TextButton(
                     onClick = { templateText = PreferencesManager.DEFAULT_MESSAGE_TEMPLATE },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Varsayılana Sıfırla", color = GreenPrimary)
+                    Text(stringResource(R.string.btn_reset_default), color = GreenPrimary)
                 }
             }
         },
@@ -86,12 +88,12 @@ fun SettingsDialog(
                 colors = ButtonDefaults.buttonColors(containerColor = GreenPrimary),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                Text("Kaydet", color = TextWhite, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.btn_save), color = TextWhite, fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Kapat", color = TextMuted)
+                Text(stringResource(R.string.btn_close), color = TextMuted)
             }
         }
     )

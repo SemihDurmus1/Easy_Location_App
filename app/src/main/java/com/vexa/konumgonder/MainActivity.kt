@@ -1,8 +1,12 @@
 package com.vexa.konumgonder
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -15,6 +19,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,11 +28,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CircularProgressIndicator
@@ -36,7 +45,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,15 +55,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import com.vexa.konumgonder.data.FavoriteContact
 import com.vexa.konumgonder.data.PreferencesManager
+import com.vexa.konumgonder.ui.components.AboutDialog
 import com.vexa.konumgonder.ui.components.AddContactDialog
 import com.vexa.konumgonder.ui.components.FavoriteContactsSheet
 import com.vexa.konumgonder.ui.components.SettingsDialog
@@ -69,7 +78,6 @@ import com.vexa.konumgonder.ui.theme.GreenPrimary
 import com.vexa.konumgonder.ui.theme.GreenSecondary
 import com.vexa.konumgonder.ui.theme.KonumGonderTheme
 import com.vexa.konumgonder.ui.theme.TextMuted
-import com.vexa.konumgonder.ui.theme.TextSubtle
 import com.vexa.konumgonder.ui.theme.TextWhite
 import com.vexa.konumgonder.utils.LocationHelper
 import com.vexa.konumgonder.utils.WhatsAppHelper
@@ -95,20 +103,71 @@ fun MainScreen() {
     val locationHelper = remember { LocationHelper(context) }
 
     var favoriteContacts by remember { mutableStateOf(prefsManager.getFavoriteContacts()) }
-    var selectedContactId by remember { mutableStateOf(prefsManager.getSelectedContactId()) }
     var messageTemplate by remember { mutableStateOf(prefsManager.getMessageTemplate()) }
 
     var isLoadingLocation by remember { mutableStateOf(false) }
+    var pendingPhoneToSend by remember { mutableStateOf<String?>(null) }
+
     var showAddContactDialog by remember { mutableStateOf(false) }
     var showContactsSheet by remember { mutableStateOf(false) }
     var showSettingsDialog by remember { mutableStateOf(false) }
+    var showAboutDialog by remember { mutableStateOf(false) }
+
+    val toastContactAddedTemplate = stringResource(R.string.toast_contact_added)
+    val toastLocationFailed = stringResource(R.string.toast_location_failed)
+    val toastPermissionRequired = stringResource(R.string.toast_permission_required)
 
     fun refreshContacts() {
         favoriteContacts = prefsManager.getFavoriteContacts()
-        selectedContactId = prefsManager.getSelectedContactId()
     }
 
-    fun sendCurrentLocation() {
+    val contactPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val contactUri: Uri? = result.data?.data
+            if (contactUri != null) {
+                try {
+                    val cursor = context.contentResolver.query(
+                        contactUri,
+                        arrayOf(
+                            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                            ContactsContract.CommonDataKinds.Phone.NUMBER
+                        ),
+                        null,
+                        null,
+                        null
+                    )
+                    cursor?.use {
+                        if (it.moveToFirst()) {
+                            val name = it.getString(0) ?: ""
+                            val phone = it.getString(1) ?: ""
+                            if (phone.isNotBlank()) {
+                                val displayName = if (name.isNotBlank()) name else phone
+                                prefsManager.addContact(displayName, phone)
+                                refreshContacts()
+                                showAddContactDialog = false
+                                Toast.makeText(context, String.format(toastContactAddedTemplate, displayName), Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Toast.makeText(context, "Kişi bilgisi alınamadı.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    fun launchContactPicker() {
+        val pickIntent = Intent(
+            Intent.ACTION_PICK,
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI
+        )
+        contactPickerLauncher.launch(pickIntent)
+    }
+
+    fun sendLocationTo(targetPhone: String? = null) {
         coroutineScope.launch {
             isLoadingLocation = true
             val location = locationHelper.getCurrentLocation()
@@ -116,18 +175,16 @@ fun MainScreen() {
 
             if (location != null) {
                 val mapsUrl = LocationHelper.createGoogleMapsUrl(location.latitude, location.longitude)
-                val selectedContact = favoriteContacts.find { it.id == selectedContactId }
-
                 WhatsAppHelper.sendLocationMessage(
                     context = context,
                     locationUrl = mapsUrl,
                     messageTemplate = messageTemplate,
-                    phoneNumber = selectedContact?.phoneNumber
+                    phoneNumber = targetPhone
                 )
             } else {
                 Toast.makeText(
                     context,
-                    "Konum alınamadı. Lütfen GPS ve Konum servisinizin açık olduğundan emin olun.",
+                    toastLocationFailed,
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -141,22 +198,24 @@ fun MainScreen() {
         val coarseGranted = permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
 
         if (fineGranted || coarseGranted) {
-            sendCurrentLocation()
+            sendLocationTo(pendingPhoneToSend)
+            pendingPhoneToSend = null
         } else {
             Toast.makeText(
                 context,
-                "Konum paylaşmak için konum izni gereklidir.",
+                toastPermissionRequired,
                 Toast.LENGTH_LONG
             ).show()
         }
     }
 
-    fun onSendButtonClick() {
+    fun triggerSendLocation(targetPhone: String? = null) {
+        pendingPhoneToSend = targetPhone
         val fineCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
         val coarseCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
 
         if (fineCheck == PackageManager.PERMISSION_GRANTED || coarseCheck == PackageManager.PERMISSION_GRANTED) {
-            sendCurrentLocation()
+            sendLocationTo(targetPhone)
         } else {
             locationPermissionLauncher.launch(
                 arrayOf(
@@ -167,8 +226,6 @@ fun MainScreen() {
         }
     }
 
-    val selectedContact = favoriteContacts.find { it.id == selectedContactId }
-
     Scaffold(
         containerColor = AppBackground,
         modifier = Modifier.fillMaxSize()
@@ -177,7 +234,7 @@ fun MainScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 24.dp, vertical = 16.dp),
+                .padding(horizontal = 20.dp, vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
@@ -190,21 +247,32 @@ fun MainScreen() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "KonumGönder",
+                    text = stringResource(R.string.app_name),
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
                     color = TextWhite
                 )
 
-                IconButton(
-                    onClick = { showSettingsDialog = true }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Settings,
-                        contentDescription = "Ayarlar",
-                        tint = TextWhite,
-                        modifier = Modifier.size(28.dp)
-                    )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    IconButton(onClick = { showAboutDialog = true }) {
+                        Icon(
+                            imageVector = Icons.Default.Info,
+                            contentDescription = stringResource(R.string.about_app),
+                            tint = GreenAccent,
+                            modifier = Modifier.size(28.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(4.dp))
+
+                    IconButton(onClick = { showSettingsDialog = true }) {
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = stringResource(R.string.settings),
+                            tint = TextWhite,
+                            modifier = Modifier.size(28.dp)
+                        )
+                    }
                 }
             }
 
@@ -223,7 +291,7 @@ fun MainScreen() {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "Konumunuzu paylaşmak için\nbüyük butona basın",
+                    text = stringResource(R.string.subtitle_press_button),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal,
                     color = TextMuted,
@@ -256,7 +324,7 @@ fun MainScreen() {
                             )
                         )
                         .clickable(enabled = !isLoadingLocation) {
-                            onSendButtonClick()
+                            triggerSendLocation(targetPhone = null)
                         }
                 ) {
                     if (isLoadingLocation) {
@@ -280,7 +348,7 @@ fun MainScreen() {
                             Spacer(modifier = Modifier.height(12.dp))
 
                             Text(
-                                text = "KONUMUMU\nGÖNDER",
+                                text = stringResource(R.string.btn_send_location),
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.ExtraBold,
                                 color = TextWhite,
@@ -291,33 +359,9 @@ fun MainScreen() {
                         }
                     }
                 }
-
-                if (selectedContact != null) {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(20.dp))
-                            .background(CardBackground)
-                            .padding(horizontal = 14.dp, vertical = 6.dp)
-                    ) {
-                        Text(
-                            text = "Gönderilecek: ",
-                            fontSize = 12.sp,
-                            color = TextMuted
-                        )
-                        Text(
-                            text = "${selectedContact.name} (${selectedContact.phoneNumber})",
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = GreenAccent
-                        )
-                    }
-                }
             }
 
-            // BOTTOM CARD - FAVORITE CONTACTS
+            // BOTTOM CARD - FAVORITE CONTACTS (HORIZONTAL SCROLLING LIST)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -325,16 +369,18 @@ fun MainScreen() {
                     .clip(RoundedCornerShape(20.dp))
                     .background(CardBackground)
                     .border(1.dp, CardBorder, RoundedCornerShape(20.dp))
-                    .padding(20.dp)
+                    .padding(vertical = 18.dp)
             ) {
                 Column(modifier = Modifier.fillMaxWidth()) {
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Favori Kişiler",
+                            text = stringResource(R.string.favorite_contacts),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             color = TextWhite
@@ -345,7 +391,7 @@ fun MainScreen() {
                             modifier = Modifier.clickable { showContactsSheet = true }
                         ) {
                             Text(
-                                text = "Tümünü Gör",
+                                text = stringResource(R.string.see_all),
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 color = GreenAccent
@@ -360,36 +406,102 @@ fun MainScreen() {
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(14.dp))
 
-                    // ADD FAVORITE CONTACT BUTTON CARD
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(AppBackground)
-                            .border(1.dp, CardBorder, RoundedCornerShape(12.dp))
-                            .clickable { showAddContactDialog = true }
-                            .padding(vertical = 14.dp, horizontal = 16.dp),
-                        contentAlignment = Alignment.Center
+                    // HORIZONTAL SCROLLING ROW (LAZYROW)
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = 20.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
                     ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.PersonAdd,
-                                contentDescription = null,
-                                tint = GreenAccent,
-                                modifier = Modifier.size(20.dp)
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(
-                                text = "Favori kişi ekleyin  ->",
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = GreenAccent
-                            )
+                        // ITEM 0: ADD CONTACT BUTTON
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .width(130.dp)
+                                    .height(110.dp)
+                                    .clip(RoundedCornerShape(16.dp))
+                                    .background(AppBackground)
+                                    .border(1.dp, CardBorder, RoundedCornerShape(16.dp))
+                                    .clickable { showAddContactDialog = true }
+                                    .padding(12.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.PersonAdd,
+                                        contentDescription = stringResource(R.string.add_contact),
+                                        tint = GreenAccent,
+                                        modifier = Modifier.size(28.dp)
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = stringResource(R.string.add_contact),
+                                        fontSize = 13.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = GreenAccent,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                            }
+                        }
+
+                        // FAVORITE CONTACTS ITEMS
+                        items(favoriteContacts, key = { it.id }) { contact ->
+                            Box(
+                                modifier = Modifier
+                                    .width(140.dp)
+                                    .height(110.dp)
+                                    .clip(RoundedCornerShape(16.dp))
+                                    .background(AppBackground)
+                                    .border(1.dp, GreenAccent, RoundedCornerShape(16.dp))
+                                    .clickable { triggerSendLocation(targetPhone = contact.phoneNumber) }
+                                    .padding(12.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(36.dp)
+                                            .clip(CircleShape)
+                                            .background(GreenPrimary),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Person,
+                                            contentDescription = null,
+                                            tint = TextWhite,
+                                            modifier = Modifier.size(20.dp)
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = contact.name,
+                                        fontSize = 14.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = TextWhite,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        textAlign = TextAlign.Center
+                                    )
+                                    Spacer(modifier = Modifier.height(2.dp))
+                                    Text(
+                                        text = contact.phoneNumber,
+                                        fontSize = 11.sp,
+                                        color = TextMuted,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                            }
                         }
                     }
                 }
@@ -398,26 +510,22 @@ fun MainScreen() {
     }
 
     // DIALOGS & BOTTOM SHEETS
+    val toastSettingsSaved = stringResource(R.string.toast_settings_saved)
+
     if (showAddContactDialog) {
         AddContactDialog(
             onDismiss = { showAddContactDialog = false },
-            onAddContact = { name, phone ->
-                prefsManager.addContact(name, phone)
-                refreshContacts()
-                showAddContactDialog = false
-                Toast.makeText(context, "$name eklendi.", Toast.LENGTH_SHORT).show()
-            }
+            onPickFromContactsClick = { launchContactPicker() }
         )
     }
 
     if (showContactsSheet) {
         FavoriteContactsSheet(
             contacts = favoriteContacts,
-            selectedContactId = selectedContactId,
             onDismiss = { showContactsSheet = false },
-            onSelectContact = { id ->
-                prefsManager.setSelectedContactId(id)
-                refreshContacts()
+            onSendToContact = { contact ->
+                showContactsSheet = false
+                triggerSendLocation(targetPhone = contact.phoneNumber)
             },
             onDeleteContact = { id ->
                 prefsManager.removeContact(id)
@@ -437,8 +545,14 @@ fun MainScreen() {
                 prefsManager.setMessageTemplate(newTemplate)
                 messageTemplate = newTemplate
                 showSettingsDialog = false
-                Toast.makeText(context, "Ayarlar kaydedildi.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, toastSettingsSaved, Toast.LENGTH_SHORT).show()
             }
+        )
+    }
+
+    if (showAboutDialog) {
+        AboutDialog(
+            onDismiss = { showAboutDialog = false }
         )
     }
 }

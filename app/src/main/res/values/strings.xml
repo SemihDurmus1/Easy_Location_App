@@ -1,3 +1,31 @@
 <resources>
-    <string name="app_name">KonumGonder</string>
+    <string name="app_name">Konum Gönder</string>
+    <string name="subtitle_press_button">Konumunuzu paylaşmak için\nbüyük butona veya kişiye basın</string>
+    <string name="btn_send_location">KONUMUMu\nGÖNDER</string>
+    <string name="favorite_contacts">Favori Kişiler</string>
+    <string name="see_all">Tümünü Gör</string>
+    <string name="add_contact">Kişi Ekle</string>
+    <string name="settings">Ayarlar</string>
+    <string name="about_app">Uygulama Hakkında</string>
+    <string name="app_version">Sürüm 1.0.0</string>
+    <string name="app_description">Yaşlı kullanıcılar için sadeleştirilmiş ve erişilebilir WhatsApp konum paylaşım uygulaması.</string>
+    <string name="privacy_note">Konumunuz yalnızca sizin isteğinizle ve seçtiğiniz kişiye gönderilir.</string>
+    <string name="dialog_add_contact_title">Favori Kişi Ekle</string>
+    <string name="dialog_add_contact_desc">Konumunuzu göndermek istediğiniz kişiyi telefon rehberinizden seçin.</string>
+    <string name="btn_pick_from_contacts">Rehberden Kişi Seç</string>
+    <string name="btn_cancel">İptal</string>
+    <string name="btn_close">Kapat</string>
+    <string name="btn_save">Kaydet</string>
+    <string name="btn_reset_default">Varsayılana Sıfırla</string>
+    <string name="msg_template_label">Mesaj Şablonu</string>
+    <string name="msg_template_desc">Konum gönderilirken yazılacak varsayılan mesaj metnini düzenleyin:</string>
+    <string name="default_message_template">Merhaba, anlık konumum:</string>
+    <string name="toast_location_failed">Konum alınamadı. Lütfen GPS ve Konum servisinizin açık olduğundan emin olun.</string>
+    <string name="toast_permission_required">Konum paylaşmak için konum izni gereklidir.</string>
+    <string name="toast_settings_saved">Ayarlar kaydedildi.</string>
+    <string name="toast_contact_added">%s eklendi.</string>
+    <string name="toast_whatsapp_failed">WhatsApp açılamadı.</string>
+    <string name="toast_share_failed">Paylaşım seçeneği bulunamadı.</string>
+    <string name="empty_favorites">Henüz kayıtlı favori kişi yok.</string>
+    <string name="settings_message_label">Konum Gönderim Mesajı:</string>
 </resources>

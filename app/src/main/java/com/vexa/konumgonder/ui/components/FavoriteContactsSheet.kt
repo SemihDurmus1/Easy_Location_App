@@ -15,28 +15,26 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.outlined.RadioButtonUnchecked
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.vexa.konumgonder.R
 import com.vexa.konumgonder.data.FavoriteContact
 import com.vexa.konumgonder.ui.theme.AppBackground
 import com.vexa.konumgonder.ui.theme.CardBackground
@@ -50,9 +48,8 @@ import com.vexa.konumgonder.ui.theme.TextWhite
 @Composable
 fun FavoriteContactsSheet(
     contacts: List<FavoriteContact>,
-    selectedContactId: String?,
     onDismiss: () -> Unit,
-    onSelectContact: (id: String?) -> Unit,
+    onSendToContact: (contact: FavoriteContact) -> Unit,
     onDeleteContact: (id: String) -> Unit,
     onAddNewContactClick: () -> Unit
 ) {
@@ -74,7 +71,7 @@ fun FavoriteContactsSheet(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Favori Kişilerim",
+                    text = stringResource(R.string.favorite_contacts),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = TextWhite
@@ -87,11 +84,11 @@ fun FavoriteContactsSheet(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = "Ekle",
+                        contentDescription = stringResource(R.string.add_contact),
                         tint = TextWhite
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Yeni Ekle", color = TextWhite, fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.add_contact), color = TextWhite, fontWeight = FontWeight.SemiBold)
                 }
             }
 
@@ -99,7 +96,7 @@ fun FavoriteContactsSheet(
 
             if (contacts.isEmpty()) {
                 Text(
-                    text = "Henüz kayıtlı favori kişi yok.",
+                    text = stringResource(R.string.empty_favorites),
                     color = TextMuted,
                     fontSize = 14.sp,
                     modifier = Modifier.padding(vertical = 24.dp)
@@ -109,67 +106,17 @@ fun FavoriteContactsSheet(
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    // Option for "No selection / Anyone"
-                    item {
-                        val isNoneSelected = selectedContactId == null
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(CardBackground)
-                                .border(
-                                    1.dp,
-                                    if (isNoneSelected) GreenPrimary else CardBorder,
-                                    RoundedCornerShape(12.dp)
-                                )
-                                .clickable { onSelectContact(null) }
-                                .padding(16.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            RadioButton(
-                                selected = isNoneSelected,
-                                onClick = { onSelectContact(null) },
-                                colors = RadioButtonDefaults.colors(selectedColor = GreenPrimary)
-                            )
-                            Spacer(modifier = Modifier.width(12.dp))
-                            Column {
-                                Text(
-                                    text = "Herhangi Biri / Seçim Yok",
-                                    fontWeight = FontWeight.Bold,
-                                    color = TextWhite,
-                                    fontSize = 15.sp
-                                )
-                                Text(
-                                    text = "WhatsApp içinden kişi seçeceğim",
-                                    color = TextMuted,
-                                    fontSize = 12.sp
-                                )
-                            }
-                        }
-                    }
-
                     items(contacts, key = { it.id }) { contact ->
-                        val isSelected = contact.id == selectedContactId
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(12.dp))
                                 .background(CardBackground)
-                                .border(
-                                    1.dp,
-                                    if (isSelected) GreenPrimary else CardBorder,
-                                    RoundedCornerShape(12.dp)
-                                )
-                                .clickable { onSelectContact(contact.id) }
+                                .border(1.dp, CardBorder, RoundedCornerShape(12.dp))
+                                .clickable { onSendToContact(contact) }
                                 .padding(16.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            RadioButton(
-                                selected = isSelected,
-                                onClick = { onSelectContact(contact.id) },
-                                colors = RadioButtonDefaults.colors(selectedColor = GreenPrimary)
-                            )
-                            Spacer(modifier = Modifier.width(12.dp))
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
                                     text = contact.name,
@@ -179,16 +126,25 @@ fun FavoriteContactsSheet(
                                 )
                                 Text(
                                     text = contact.phoneNumber,
-                                    color = TextAccentGreenOrMuted(isSelected),
+                                    color = TextMuted,
                                     fontSize = 13.sp
                                 )
                             }
-                            IconButton(onClick = { onDeleteContact(contact.id) }) {
-                                Icon(
-                                    imageVector = Icons.Default.Delete,
-                                    contentDescription = "Sil",
-                                    tint = TextMuted
-                                )
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                IconButton(onClick = { onSendToContact(contact) }) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Filled.Send,
+                                        contentDescription = stringResource(R.string.btn_send_location),
+                                        tint = GreenAccent
+                                    )
+                                }
+                                IconButton(onClick = { onDeleteContact(contact.id) }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Delete,
+                                        contentDescription = "Sil",
+                                        tint = TextMuted
+                                    )
+                                }
                             }
                         }
                     }
@@ -199,6 +155,3 @@ fun FavoriteContactsSheet(
         }
     }
 }
-
-@Composable
-private fun TextAccentGreenOrMuted(isSelected: Boolean) = if (isSelected) GreenAccent else TextMuted

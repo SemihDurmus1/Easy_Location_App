@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">KonumGönder</string>
+    <string name="subtitle_press_button">اضغط على الزر الكبير أو جهة الاتصال\nلمشاركة موقعك</string>
+    <string name="btn_send_location">إرسال\nالموقع</string>
+    <string name="favorite_contacts">المفضلة</string>
+    <string name="see_all">عرض الكل</string>
+    <string name="add_contact">إضافة</string>
+    <string name="settings">الإعدادات</string>
+    <string name="about_app">حول التطبيق</string>
+    <string name="app_version">الإصدار 1.0.0</string>
+    <string name="app_description">تطبيق مشاركة موقع WhatsApp مبسط وسهل الاستخدام لكبار السن.</string>
+    <string name="privacy_note">يتم إرسال موقعك بناءً على طلبك فقط وإلى جهة الاتصال المحددة.</string>
+    <string name="dialog_add_contact_title">إضافة جهة مفضلة</string>
+    <string name="dialog_add_contact_desc">اختر الشخص الذي تريد إرسال موقعك إليه من جهات الاتصال.</string>
+    <string name="btn_pick_from_contacts">اختر من جهات الاتصال</string>
+    <string name="btn_cancel">إلغاء</string>
+    <string name="btn_close">إغلاق</string>
+    <string name="btn_save">حفظ</string>
+    <string name="btn_reset_default">إعادة ضبط</string>
+    <string name="msg_template_label">قالب الرسالة</string>
+    <string name="msg_template_desc">تعديل نص الرسالة الافتراضي لمشاركة الموقع:</string>
+    <string name="toast_location_failed">تعذر الحصول على الموقع. تأكد من تفعيل نظام تحديد الموقع (GPS).</string>
+    <string name="toast_permission_required">إذن الموقع مطلوب.</string>
+    <string name="toast_settings_saved">تم حفظ الإعدادات.</string>
+    <string name="toast_contact_added">تم إضافة %s.</string>
+    <string name="toast_whatsapp_failed">تعذر فتح واتساب.</string>
+    <string name="toast_share_failed">لم يتم العثور على خيار للمشاركة.</string>
+    <string name="empty_favorites">لا توجد جهات اتصال مفضلة بعد.</string>
+    <string name="settings_message_label">رسالة الموقع:</string>
+</resources>

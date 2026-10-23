@@ -12,10 +12,6 @@ object WhatsAppHelper {
         var cleanPhone = rawPhone.replace(Regex("[^0-9+]"), "")
         if (cleanPhone.startsWith("+")) {
             cleanPhone = cleanPhone.substring(1)
-        } else if (cleanPhone.startsWith("0")) {
-            cleanPhone = "90" + cleanPhone.substring(1)
-        } else if (!cleanPhone.startsWith("90") && cleanPhone.length == 10) {
-            cleanPhone = "90" + cleanPhone
         }
         return cleanPhone
     }
